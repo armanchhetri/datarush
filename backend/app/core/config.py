@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     '''
     DEBUG : bool
 
-    CORS_ORIGINS: List[str]
+    CORS_ORIGINS: List[str] = ["*"]
 
     class Config:
         env_file = ".env"
