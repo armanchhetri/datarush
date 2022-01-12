@@ -49,7 +49,7 @@ function rankWiseBackgroundColorClassName(rank: number) {
     case 2:
       return "bg-[#f2f8ff]";
     case 3:
-      return "bg-[#ffd9b3]";
+      return "bg-[#ffecd9]";
     default:
       return "";
   }
@@ -68,31 +68,31 @@ const Leaderboard = () => {
             <tr>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider "
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider "
               >
                 #
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
                 Team Name
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
                 Highest Score
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
                 Entries
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
                 Last Entry
               </th>
@@ -115,7 +115,9 @@ const Leaderboard = () => {
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
-                  <div className="text-sm">{leaderboardEntry.team_name}</div>
+                  <div className="text-sm font-bold">
+                    {leaderboardEntry.team_name}
+                  </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
                   <span>{leaderboardEntry.highest_score}</span>
@@ -137,13 +139,13 @@ const Leaderboard = () => {
             <tr>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
                 #
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
                 Team Details
               </th>
@@ -166,7 +168,7 @@ const Leaderboard = () => {
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
-                  <div className="text-lg text-gray-900">
+                  <div className="font-bold text-gray-900">
                     {leaderboardEntry.team_name}
                   </div>
                   <div className="text-xs">

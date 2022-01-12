@@ -7,28 +7,34 @@ import Discussion from "./pages/Discussion";
 import Leaderboard from "./pages/Leaderboard";
 import NoMatch from "./pages/NoMatch";
 import Overview from "./pages/Overview";
+import Rules from "./pages/Rules";
 import Submission from "./pages/Submission";
 function App() {
   return (
     <div className="bg-gray-100 min-h-screen text-slate-700">
       <div className="container mx-auto p-4 rounded-sm">
-        <LogosHeader />
-        <EventDescription />
-
+        <header>
+          <LogosHeader />
+          <EventDescription />
+        </header>
         <Navbar />
 
-        <Routes>
-          <Route
-            path={"/"}
-            element={<Navigate to="/overview" replace={true} />}
-          />
-          <Route path={"/overview"} element={<Overview />} />
-          <Route path={"/leaderboard"} element={<Leaderboard />} />
-          <Route path={"/submission"} element={<Submission />} />
-          <Route path={"/discussion"} element={<Discussion />} />
-          <Route path={"*"} element={<NoMatch />} />
-        </Routes>
+        <main>
+          <Routes>
+            <Route
+              path={"/"}
+              element={<Navigate to="/overview" replace={true} />}
+            />
+            <Route path={"/overview/*"} element={<Overview />} />
+            <Route path={"/leaderboard"} element={<Leaderboard />} />
+            <Route path={"/submission"} element={<Submission />} />
+            <Route path={"/rules"} element={<Rules />} />
+            <Route path={"/discussion"} element={<Discussion />} />
+            <Route path={"*"} element={<NoMatch />} />
+          </Routes>
+        </main>
       </div>
+      <div className="h-96"></div>
     </div>
   );
 }
