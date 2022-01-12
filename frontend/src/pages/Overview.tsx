@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, NavLink, Route, Routes } from "react-router-dom";
+import EventDescription from "../components/EventDescription";
 
 const navigation = [
   { name: "Description", href: "description" },
@@ -59,6 +60,7 @@ export default Overview;
 const Description = () => {
   return (
     <div>
+      <EventDescription />
       <h3 className="text-xl font-bold">Description</h3>
       <p className="py-2">
         DataRush is one of the major competitive pre-events organized by LOCUS

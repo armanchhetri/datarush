@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import EventDescription from "./components/EventDescription";
 import LogosHeader from "./components/LogosHeader";
 import Navbar from "./components/Navbar";
 import Discussion from "./pages/Discussion";
@@ -15,7 +14,6 @@ function App() {
       <div className="container mx-auto p-4 rounded-sm">
         <header>
           <LogosHeader />
-          <EventDescription />
         </header>
         <Navbar />
 

@@ -110,6 +110,9 @@ const Submission = () => {
               </div>
             </form>
           </div>
+          <div className="col-span-full">
+            <hr />
+          </div>
 
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">

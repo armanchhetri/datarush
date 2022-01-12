@@ -24,7 +24,7 @@ const LogosHeader = () => {
         <img
           src="/images/docsumo-logo.png"
           alt="docsumo logo"
-          className="w-44 mx-auto"
+          className="w-52 mx-auto"
         />
         <div className="text-[#1174af]">
           <h1 className="text-6xl md:text-7xl font-bold">DataRush</h1>

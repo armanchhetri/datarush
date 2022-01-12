@@ -2,28 +2,28 @@ const leaderboardEntries = [
   {
     id: 0,
     team_name: "string",
-    highest_score: 0,
+    latest_score: 0,
     entries: 0,
     last: "2022-01-11T17:04:11.847Z",
   },
   {
     id: 1,
     team_name: "string",
-    highest_score: 0,
+    latest_score: 0,
     entries: 0,
     last: "2022-01-11T17:04:11.847Z",
   },
   {
     id: 2,
     team_name: "string",
-    highest_score: 0,
+    latest_score: 0,
     entries: 0,
     last: "2022-01-11T17:04:11.847Z",
   },
   {
     id: 3,
     team_name: "string",
-    highest_score: 0,
+    latest_score: 0,
     entries: 0,
     last: "2022-01-11T17:04:11.847Z",
   },
@@ -82,7 +82,7 @@ const Leaderboard = () => {
                 scope="col"
                 className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
               >
-                Highest Score
+                Latest Score
               </th>
               <th
                 scope="col"
@@ -120,7 +120,7 @@ const Leaderboard = () => {
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
-                  <span>{leaderboardEntry.highest_score}</span>
+                  <span>{leaderboardEntry.latest_score}</span>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
                   <span>{leaderboardEntry.entries}</span>
@@ -173,9 +173,9 @@ const Leaderboard = () => {
                   </div>
                   <div className="text-xs">
                     <span className="pr-1 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
-                      Highest Score:
+                      Latest Score:
                     </span>
-                    <span>{leaderboardEntry.highest_score}</span>
+                    <span>{leaderboardEntry.latest_score}</span>
                   </div>
                   <div className="text-xs">
                     <span className="pr-1 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
