@@ -16,12 +16,12 @@ const Discussion = () => {
           </div>
           <div className="col-span-2 font-bold text-sm p-4">
             <a
-              href="https://discord.gg/TXK9Pv4ZzS"
+              href="https://discord.gg/RcxDkMW7jr"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 break-all"
             >
-              https://discord.gg/TXK9Pv4ZzS
+              https://discord.gg/RcxDkMW7jr
             </a>
           </div>
           <div className="col-span-1 font-bold p-4">Locus Discord Server</div>
