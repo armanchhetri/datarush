@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     DESCRIPTION :str ='''
     This is an api for Locus AI frontend.🚀
     The endpoints and their respective documentation are available below.
-
+    So far, the api is only for the purpose of the competition.
     '''
     DEBUG : bool
 
