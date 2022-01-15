@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     DATA_INSIGHTS_DIR: str
 
     ROOT_URL :str
+    ROOT_PATH: str
     DATABASE_USERNAME :str = "postgres"
     DATABASE_PASSWORD :str = "postgres"
     DATABASE_HOSTNAME :str = "localhost"

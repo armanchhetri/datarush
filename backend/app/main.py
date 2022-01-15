@@ -30,7 +30,7 @@ from .dbinit import init_db, seed_db
 Base.metadata.create_all(bind=engine)
 
 
-app = FastAPI(description=settings.DESCRIPTION)
+app = FastAPI(description=settings.DESCRIPTION, root_path=settings.ROOT_PATH)
 # app = FastAPI(description=settings.DESCRIPTION)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
