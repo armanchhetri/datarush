@@ -13,7 +13,7 @@ from app.core.config import settings
 from app.models import usermodel
 from app.schemas import userschema
 from app.database import get_db
-from app.utils import save_db, save_file
+from app.utils import MyUploadFile, save_db, save_file
 
 from .evaluation import calculate_score
 
@@ -43,12 +43,19 @@ def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return db.query(usermodel.User).offset(skip).limit(limit).all()
 
 
+
 def get_current_user(db: Session = Depends(get_db), token_data: userschema.TokenData = Depends(get_token_data)):
     user = get_user_by_email(db, email=token_data.email)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user
+
+
+def is_superuser(user: usermodel.User = Depends(get_current_user)):
+    if user.is_superuser:
+        return True
+    raise HTTPException(status_code=400, detail="User is not a superuser")
 
 
 def get_current_active_user(current_user: userschema.User = Depends(get_current_user)):
@@ -176,3 +183,23 @@ def get_public_leaderboard(db:Session) -> List[userschema.LeaderBoard]:
 
 def get_private_leaderboard(db:Session) -> List[userschema.LeaderBoard]:
     return db.query(usermodel.LeaderBoard).filter(usermodel.LeaderBoard.public == False).order_by(usermodel.LeaderBoard.highest_score.desc()).all()
+
+
+
+def save_data_insights(db: Session, user:usermodel.User, file: MyUploadFile = None, link:str=None):
+    if file != None:
+        file_path = save_file(file, settings.DATA_INSIGHTS_DIR, lambda _: f'{user.email}_{file.filename}')
+        user.data_insights_file = settings.ROOT_URL + file_path
+
+    if link != None:
+        user.data_insights_link = link
+
+    user = save_db(db, user)
+
+
+
+    
+
+    
+
+    

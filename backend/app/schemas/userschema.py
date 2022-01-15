@@ -28,6 +28,8 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     submissions: List[Submission]
+    data_insights_link: Optional[str] = None
+    data_insights_file: Optional[str] = None
    
     class Config:
         orm_mode = True

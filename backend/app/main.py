@@ -21,7 +21,7 @@ from .crud import usercrud
 from .models import usermodel
 from .schemas import userschema
 from app.core.config import settings
-from .crud.usercrud import get_current_user, submit_solution
+from .crud.usercrud import get_current_user, is_superuser, save_data_insights, submit_solution
 from .database import SessionLocal, engine, get_db, Base
 
 from .dbinit import init_db, seed_db
@@ -68,26 +68,26 @@ async def login_for_access_token(user: Optional[userschema.User] = Depends(userc
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@app.post("/users/", response_model=userschema.User)
+@app.post("/users/", response_model=userschema.User, dependencies=[Depends(is_superuser)])
 def create_user(user: userschema.UserCreate, db: Session = Depends(get_db)):
     db_user = usercrud.create_user(db=db, user=user)
     return db_user
 
 
-@app.put("/users/admin/update-user", response_model=userschema.User)
+@app.put("/users/admin/update-user", response_model=userschema.User, dependencies=[Depends(is_superuser)])
 def update_user(user: userschema.UserUpdate, db: Session = Depends(get_db)):
     db_user = usercrud.update_user(db=db, user=user)
     return db_user
 
 
-@app.delete("/users/admin/update-user/{user_id}", response_model=userschema.User)
+@app.delete("/users/admin/update-user/{user_id}", response_model=userschema.User, dependencies=[Depends(is_superuser)])
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     db_user = usercrud.delete_user(db=db, user_id=user_id)
     return db_user
 
 
 # @app.get("/users/", response_model=List[userschema.User], dependencies=[Depends(get_current_user)])
-@app.get("/users/", response_model=List[userschema.User])
+@app.get("/users/", response_model=List[userschema.User], dependencies=[Depends(is_superuser)])
 def read_users(users: userschema.User = Depends(usercrud.get_users)):
     return users
 
@@ -97,7 +97,7 @@ def read_user_me(current_user: userschema.User = Depends(usercrud.get_current_us
     return current_user
 
 
-@app.put("/users/me/update", response_model=userschema.User)
+@app.put("/users/me/update", response_model=userschema.User, dependencies=[Depends(is_superuser)])
 def update_user_me(new_user: userschema.UserUpdate, curr_user=Depends(usercrud.get_current_user), db=Depends(get_db)):
     if new_user.email == curr_user.email:
         new_user = userschema.UserCreate(**new_user.dict())
@@ -119,6 +119,18 @@ def submit_sol(file: UploadFile = File(...), user: usermodel.User = Depends(user
                db: Session = Depends(get_db)):
     score = submit_solution(db, user, file)
     return {"score": score}
+
+
+@app.post("/submit-insights")
+def submit_data_insights(file: MyUploadFile = File(None), link:str = Form(None), user: usermodel.User = Depends(usercrud.get_current_user),
+               db: Session = Depends(get_db)):
+
+    if file is None and link is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please provide either a file or a link")
+
+    save_data_insights(db, user, file, link)
+    return {"msg": "Done"}
+
 
 
 @app.get("/mysubmissions", response_model=List[userschema.Submission])
@@ -158,3 +170,4 @@ def announce_private(announce: bool = Form(False), db: Session = Depends(get_db)
 
     else:
         return {"message": "Private Leaderboard Closed"}
+

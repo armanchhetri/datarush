@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD :str = "admin"
     SOLUTION_PATH:str 
     SUBMISSION_DIR: str 
+    DATA_INSIGHTS_DIR: str
 
     ROOT_URL :str
     DATABASE_USERNAME :str = "postgres"
