@@ -21,5 +21,7 @@ jobs:
           script: |
             cd datarush/ailocus
             git pull
-            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
+            cd frontend
+            yarn run build
+            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart datarush
       
