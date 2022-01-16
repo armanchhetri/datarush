@@ -12,3 +12,11 @@ interface Submission {
   score: number;
   timestamp: string;
 }
+
+interface LeaderboardEntry {
+  id: number;
+  team_name: string;
+  highest_score: number;
+  entries: number;
+  last: string;
+}
