@@ -2,7 +2,7 @@ import { Axios, AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import { useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   Navigate,
   NavLink,
@@ -12,6 +12,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import LoginRequired from "../components/LoginRequired";
+import useTopLoader from "../hooks/useTopLoader";
 import {
   getMyInfo,
   submitDataInsightsForm,
@@ -90,8 +91,111 @@ const NewSubmission = () => {
   );
 };
 
+const test_submissions = [
+  {
+    id: 0,
+    score: 0,
+    timestamp: "2022-01-16T11:02:50.933Z",
+  },
+  {
+    id: 0,
+    score: 0,
+    timestamp: "2022-01-16T11:02:50.933Z",
+  },
+];
+
 const PreviousSubmissions = () => {
-  return <div className="lg:grid lg:grid-cols-3 lg:gap-6"></div>;
+  const { enqueueSnackbar } = useSnackbar();
+  const { displayLoader, hideLoader } = useTopLoader();
+
+  const { data, error, isFetching } = useQuery<UserInfo, AxiosError>(
+    ["users", "me"],
+    getMyInfo,
+    {
+      retry: false,
+    }
+  );
+
+  useEffect(() => {
+    if (!error) return;
+    enqueueSnackbar(error.message, { variant: "error" });
+  }, [error]);
+
+  useEffect(() => {
+    if (isFetching) displayLoader();
+    else hideLoader();
+  }, [isFetching]);
+
+  return (
+    <div className="">
+      <div>
+        <h3 className="font-bold text-lg">AI Competition Submission History</h3>
+        <div className="py-2">
+          {data?.submissions.length === 0 ? (
+            <div className="border p-4 bg-slate-50 text-center">No entries</div>
+          ) : (
+            data?.submissions.map((submission, i) => (
+              <div
+                key={i + submission.id}
+                className={`border p-4 ${i % 2 === 0 ? "" : "bg-slate-50"}`}
+              >
+                <p className="">{new Date(submission.timestamp).toString()}</p>
+                <p className="text-sm font-bold">
+                  Submission id: {submission.id}
+                </p>
+                <p className="text-sm font-bold py-2">
+                  Score:{" "}
+                  <span className="bg-green-700 text-white text-sm font-bold rounded px-2">
+                    {submission.score}
+                  </span>{" "}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+      <div className="py-4">
+        <hr />
+      </div>
+      <div>
+        <h3 className="font-bold text-lg">Data Insights Report</h3>
+        <div className="py-2">
+          <div className={`border p-4 bg-slate-50`}>
+            <p className="text-sm font-bold py-2">
+              Data Insights Link:{" "}
+              {data?.data_insights_link ? (
+                <a
+                  href={data?.data_insights_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 break-all"
+                >
+                  {data?.data_insights_link}
+                </a>
+              ) : (
+                <span>None</span>
+              )}
+            </p>
+            <p className="text-sm font-bold py-2">
+              Data Insights File:{" "}
+              {data?.data_insights_file ? (
+                <a
+                  href={data?.data_insights_file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 break-all"
+                >
+                  {data?.data_insights_file}
+                </a>
+              ) : (
+                <span>None</span>
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const ModelForm = () => {
@@ -104,6 +208,7 @@ const ModelForm = () => {
 
   const modelFile = modelSubmissionForm?.current?.["file"].value;
 
+  const queryClient = useQueryClient();
   const mutation = useMutation<any, AxiosError, HTMLFormElement>(
     ["submission"],
     submitModelFile,
@@ -120,8 +225,12 @@ const ModelForm = () => {
         });
       },
       onSuccess: (data) => {
-        enqueueSnackbar(data, { variant: "success" });
+        enqueueSnackbar(
+          "Your file has been submitted with score: " + data.data.score,
+          { variant: "success" }
+        );
         navigate("/submission/history");
+        queryClient.invalidateQueries(["users", "me"]);
       },
     }
   );
@@ -237,7 +346,7 @@ const DataInsightsForm = () => {
         });
       },
       onSuccess: (data) => {
-        enqueueSnackbar(data, { variant: "success" });
+        enqueueSnackbar("Your form has been submitted", { variant: "success" });
         navigate("/submission/history");
       },
     }

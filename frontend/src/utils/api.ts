@@ -81,3 +81,23 @@ export async function submitDataInsightsForm(form: HTMLFormElement) {
 
   return response;
 }
+
+export async function getMySubmissions() {
+  const response = await axios({
+    url: "/mysubmissions",
+    method: "get",
+    headers: {
+      Authorization: getTokenType() + " " + getCurrentAuthToken(),
+    },
+  });
+
+  return response;
+}
+
+export async function getPublicLeaderboard() {
+  const response = await axios({
+    url: "/public-leaderboard",
+  });
+
+  return response.data;
+}
