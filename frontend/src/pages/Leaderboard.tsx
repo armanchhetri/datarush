@@ -64,7 +64,6 @@ const privateLeaderboardEntries = [
 
 const navigation = [
   { name: "Public", href: "public" },
-  // { name: "Data", href: "/data" },
   { name: "Private", href: "private" },
 ];
 

@@ -4,6 +4,7 @@ import LogosHeader from "./components/LogosHeader";
 import Navbar from "./components/Navbar";
 import Discussion from "./pages/Discussion";
 import Leaderboard from "./pages/Leaderboard";
+import Login from "./pages/Login";
 import NoMatch from "./pages/NoMatch";
 import Overview from "./pages/Overview";
 import Rules from "./pages/Rules";
@@ -25,9 +26,10 @@ function App() {
             />
             <Route path={"/overview/*"} element={<Overview />} />
             <Route path={"/leaderboard/*"} element={<Leaderboard />} />
-            <Route path={"/submission"} element={<Submission />} />
+            <Route path={"/submission/*"} element={<Submission />} />
             <Route path={"/rules"} element={<Rules />} />
             <Route path={"/discussion"} element={<Discussion />} />
+            <Route path={"/login"} element={<Login />} />
             <Route path={"*"} element={<NoMatch />} />
           </Routes>
         </main>

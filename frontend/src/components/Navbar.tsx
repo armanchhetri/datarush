@@ -1,10 +1,15 @@
+import { Menu, MenuItem } from "@mui/material";
 import { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
-import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import { getMyInfo } from "../utils/api";
+import { useQuery, useQueryClient } from "react-query";
+import {
+  NavLink,
+  useLocation,
+  useMatch,
+  useResolvedPath,
+} from "react-router-dom";
+import { getMyInfo, signOut } from "../utils/api";
 
 const navigation = [
   { name: "Overview", href: "overview" },
@@ -18,13 +23,33 @@ const navigation = [
 const Navbar = () => {
   const { enqueueSnackbar } = useSnackbar();
 
+  const location = useLocation();
+
+  const queryClient = useQueryClient();
   const myInfoQuery = useQuery<UserInfo, AxiosError>(
     ["users", "me"],
     getMyInfo,
     {
       retry: false,
+      refetchOnWindowFocus: false,
     }
   );
+
+  // team menu
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    handleClose();
+    signOut();
+    queryClient.invalidateQueries(["users", "me"]);
+  };
 
   useEffect(() => {
     const error = myInfoQuery.error;
@@ -60,11 +85,24 @@ const Navbar = () => {
               className={({ isActive }) =>
                 isActive ? "nav-link active" : "nav-link"
               }
+              state={{ from: location }}
             >
               Log In
             </NavLink>
           ) : (
-            <button type="button">{myInfoQuery?.data?.team_name}</button>
+            <>
+              <button type="button" className="nav-link" onClick={handleClick}>
+                {myInfoQuery?.data?.team_name}
+              </button>
+              <Menu
+                id="team-dashboard"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>
           )}
         </div>
       )}
