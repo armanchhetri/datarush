@@ -2,7 +2,7 @@ import React from "react";
 
 const LogosHeader = () => {
   return (
-    <div className="rounded-md shadow-sm bg-white px-2 my-4 text-center">
+    <div className="rounded-b-md shadow-sm bg-white px-2 mb-4 text-center">
       {/* <div className="bg-gradient-to-r from-[#2f70a4] to-[#448cc4] py-6 px-2">
                 <div className="flex justify-between py-2">
                 <img
