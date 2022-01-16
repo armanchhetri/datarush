@@ -22,8 +22,11 @@ jobs:
             git pull origin prod
             git checkout prod
             cd frontend
+<<<<<<< HEAD
             node -v
             echo $USER
+=======
+            yarn
+>>>>>>> cabd9304a6c3585c6a44ccb647cc6ba53c7377a0
             yarn run build
             echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart datarush
-      

@@ -6,11 +6,14 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter } from "react-router-dom";
+import GlobalHooksProvider from "./hooks/GlobalHooksProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <GlobalHooksProvider>
+        <App />
+      </GlobalHooksProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
