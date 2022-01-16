@@ -18,15 +18,11 @@ jobs:
           username: ${{secrets.PROD_USERNAME}}
           password: ${{secrets.PROD_PASSWORD}}
           script: |
-            ls
-            pwd
             cd datarush/ailocus
             git pull origin prod
             git checkout prod
             cd frontend
-            nvm use v16.8.0
+            ls
             node -v
-            
-            yarn
-            yarn run build
+            npm run build
             echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart datarush
