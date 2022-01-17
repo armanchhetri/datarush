@@ -1,5 +1,3 @@
-import React from "react";
-
 const Rules = () => {
   return (
     <div className="rounded-md shadow-sm p-4 my-4 bg-white">

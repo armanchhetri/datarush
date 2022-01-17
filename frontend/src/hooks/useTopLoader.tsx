@@ -1,5 +1,5 @@
 import { LinearProgress } from "@mui/material";
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 
 interface TopLoaderContext {
   displayLoader: () => void;
@@ -16,20 +16,15 @@ const Context = createContext<TopLoaderContext>(defaultContext);
 export const TopLoaderProvider: React.FC = ({ children }) => {
   const [open, setOpen] = useState(false);
 
-  const loaderUtils: TopLoaderContext = useMemo(
-    () => ({
-      displayLoader() {
-        setOpen(true);
-      },
-      hideLoader() {
-        setOpen(false);
-      },
-    }),
-    []
-  );
+  const displayLoader = useCallback(() => {
+    setOpen(true);
+  }, []);
+  const hideLoader = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   return (
-    <Context.Provider value={loaderUtils}>
+    <Context.Provider value={{ displayLoader, hideLoader }}>
       <div className="absolute top-0 left-0 w-full z-[1100]">
         {open && <LinearProgress />}
       </div>

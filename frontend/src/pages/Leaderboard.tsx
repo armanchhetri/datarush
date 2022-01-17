@@ -6,67 +6,67 @@ import { Navigate, NavLink, Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
 import { getPublicLeaderboard } from "../utils/api";
 
-const leaderboardEntries = [
-  {
-    id: 0,
-    team_name: "string",
-    highest_score: 0,
-    entries: 0,
-    last: "2022-01-11T17:04:11.847Z",
-  },
-  {
-    id: 1,
-    team_name: "string",
-    highest_score: 0,
-    entries: 0,
-    last: "2022-01-11T17:04:11.847Z",
-  },
-  {
-    id: 2,
-    team_name: "string",
-    highest_score: 0,
-    entries: 0,
-    last: "2022-01-11T17:04:11.847Z",
-  },
-  {
-    id: 3,
-    team_name: "string",
-    highest_score: 0,
-    entries: 0,
-    last: "2022-01-11T17:04:11.847Z",
-  },
-];
+// const leaderboardEntries = [
+//   {
+//     id: 0,
+//     team_name: "string",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "2022-01-11T17:04:11.847Z",
+//   },
+//   {
+//     id: 1,
+//     team_name: "string",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "2022-01-11T17:04:11.847Z",
+//   },
+//   {
+//     id: 2,
+//     team_name: "string",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "2022-01-11T17:04:11.847Z",
+//   },
+//   {
+//     id: 3,
+//     team_name: "string",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "2022-01-11T17:04:11.847Z",
+//   },
+// ];
 
-const privateLeaderboardEntries = [
-  {
-    id: 0,
-    team_name: "",
-    highest_score: 0,
-    entries: 0,
-    last: "",
-  },
-  {
-    id: 1,
-    team_name: "",
-    highest_score: 0,
-    entries: 0,
-    last: "",
-  },
-  {
-    id: 2,
-    team_name: "",
-    highest_score: 0,
-    entries: 0,
-    last: "",
-  },
-  {
-    id: 3,
-    team_name: "",
-    highest_score: 0,
-    entries: 0,
-    last: "",
-  },
-];
+// const privateLeaderboardEntries = [
+//   {
+//     id: 0,
+//     team_name: "",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "",
+//   },
+//   {
+//     id: 1,
+//     team_name: "",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "",
+//   },
+//   {
+//     id: 2,
+//     team_name: "",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "",
+//   },
+//   {
+//     id: 3,
+//     team_name: "",
+//     highest_score: 0,
+//     entries: 0,
+//     last: "",
+//   },
+// ];
 
 const navigation = [
   { name: "Public", href: "public" },
@@ -149,9 +149,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   const { data, error, isFetching, isError } = useQuery<
     LeaderboardEntry[],
     AxiosError
-  >(["public-leaderboard"], getPublicLeaderboard, {
-    refetchInterval: 5000,
-  });
+  >(["public-leaderboard"], getPublicLeaderboard, { refetchInterval: 5000 });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -161,7 +159,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   }, [error]);
 
   return (
-    <div className="">
+    <div className="min-h-[16rem]">
       <div className="flex flex-wrap justify-start items-center gap-4">
         <h3 className="text-xl font-bold">
           {route === "public" ? "Public Leaderboard" : "Private Leaderboard"}

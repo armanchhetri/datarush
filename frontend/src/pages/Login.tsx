@@ -2,12 +2,8 @@ import { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { Location, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { signIn } from "../utils/api";
-
-interface LocationState {
-  from: Location;
-}
 
 const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
