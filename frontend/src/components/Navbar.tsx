@@ -3,12 +3,7 @@ import { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import {
-  NavLink,
-  useLocation,
-  useMatch,
-  useResolvedPath,
-} from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { getMyInfo, signOut } from "../utils/api";
 
 const navigation = [

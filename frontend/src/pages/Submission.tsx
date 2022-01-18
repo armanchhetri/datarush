@@ -1,6 +1,7 @@
-import { Axios, AxiosError } from "axios";
+import { Pagination } from "@mui/material";
+import { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
@@ -8,7 +9,6 @@ import {
   NavLink,
   Route,
   Routes,
-  useLocation,
   useNavigate,
 } from "react-router-dom";
 import LoginRequired from "../components/LoginRequired";
@@ -25,9 +25,6 @@ const navigation = [
 ];
 
 const Submission = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const myInfoQuery = useQuery<UserInfo, AxiosError>(
     ["users", "me"],
     getMyInfo,
@@ -91,18 +88,18 @@ const NewSubmission = () => {
   );
 };
 
-const test_submissions = [
-  {
-    id: 0,
-    score: 0,
-    timestamp: "2022-01-16T11:02:50.933Z",
-  },
-  {
-    id: 0,
-    score: 0,
-    timestamp: "2022-01-16T11:02:50.933Z",
-  },
-];
+// const test_submissions = [
+//   {
+//     id: 0,
+//     score: 0,
+//     timestamp: "2022-01-16T11:02:50.933Z",
+//   },
+//   {
+//     id: 0,
+//     score: 0,
+//     timestamp: "2022-01-16T11:02:50.933Z",
+//   },
+// ];
 
 const PreviousSubmissions = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -116,6 +113,34 @@ const PreviousSubmissions = () => {
     }
   );
 
+  const [page, setPage] = useState(1);
+  const [rowsPerPage] = useState(10);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
+
+  const [paginatedData, setPaginatedData] = useState(() => {
+    const submissions = data?.submissions.slice(
+      (page - 1) * rowsPerPage,
+      page * rowsPerPage
+    );
+    if (submissions) return submissions;
+    return [];
+  });
+
+  useEffect(() => {
+    const submissions = data?.submissions.slice(
+      (page - 1) * rowsPerPage,
+      page * rowsPerPage
+    );
+    if (submissions) setPaginatedData(submissions);
+    else setPaginatedData([]);
+  }, [data, page, rowsPerPage]);
+
   useEffect(() => {
     if (!error) return;
     enqueueSnackbar(error.message, { variant: "error" });
@@ -124,17 +149,17 @@ const PreviousSubmissions = () => {
   useEffect(() => {
     if (isFetching) displayLoader();
     else hideLoader();
-  }, [isFetching]);
+  }, [isFetching, displayLoader, hideLoader]);
 
   return (
     <div className="">
       <div>
         <h3 className="font-bold text-lg">AI Competition Submission History</h3>
         <div className="py-2">
-          {data?.submissions.length === 0 ? (
+          {paginatedData.length === 0 ? (
             <div className="border p-4 bg-slate-50 text-center">No entries</div>
           ) : (
-            data?.submissions.map((submission, i) => (
+            paginatedData.map((submission, i) => (
               <div
                 key={i + submission.id}
                 className={`border p-4 ${i % 2 === 0 ? "" : "bg-slate-50"}`}
@@ -153,6 +178,15 @@ const PreviousSubmissions = () => {
             ))
           )}
         </div>
+        {data?.submissions && (
+          <div className="py-2">
+            <Pagination
+              count={Math.ceil(data.submissions.length / rowsPerPage)}
+              shape="rounded"
+              onChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
       <div className="py-4">
         <hr />

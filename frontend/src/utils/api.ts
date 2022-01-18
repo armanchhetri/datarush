@@ -52,6 +52,8 @@ export const signIn = async (form: HTMLFormElement) => {
 };
 
 export const signOut = async () => {
+  setCurrentAuthToken("");
+  setTokenType("");
   removeCurrentAuthToken();
   removeTokenType();
 };
