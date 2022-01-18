@@ -7,7 +7,6 @@ from fastapi import Depends, status
 from datetime import timedelta, datetime
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 
-
 from app.core.security import get_password_hash, get_token_data, verify_password
 from app.core.config import settings
 from app.models import usermodel
@@ -55,7 +54,7 @@ def get_current_user(db: Session = Depends(get_db), token_data: userschema.Token
 def is_superuser(user: usermodel.User = Depends(get_current_user)):
     if user.is_superuser:
         return True
-    raise HTTPException(status_code=400, detail="User is not a superuser")
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User is not a superuser")
 
 
 def get_current_active_user(current_user: userschema.User = Depends(get_current_user)):
@@ -119,7 +118,7 @@ def delete_user(db: Session, user_id: int):
 
 
 def get_submissions(db: Session, user_id: int):
-    return db.query(usermodel.Submission).filter(usermodel.Submission.user_id == user_id).all()
+    return db.query(usermodel.Submission).filter(usermodel.Submission.user_id == user_id).order_by(usermodel.Submission.id.desc()).all()
 
 def get_leaderboard(db: Session, user_id: int):
     lb_pri = db.query(usermodel.LeaderBoard).filter(usermodel.LeaderBoard.user_id == user_id and
@@ -145,7 +144,7 @@ def submit_solution(db: Session, user: userschema.User, csv_file: UploadFile):
 
     pub_score, pri_score = calculate_score(file_path)
 
-    submission = usermodel.Submission(user_id=user.id, score=pub_score)
+    submission = usermodel.Submission(user_id=user.id, score=pub_score, file=file_path)
     submission = save_db(db, submission)
 
     pri_leaderboard, pub_leaderboard = get_leaderboard(db, user.id)
@@ -187,8 +186,9 @@ def get_private_leaderboard(db:Session) -> List[userschema.LeaderBoard]:
 
 
 def save_data_insights(db: Session, user:usermodel.User, file: MyUploadFile = None, link:str=None):
+    
     if file != None:
-        file_path = save_file(file, settings.DATA_INSIGHTS_DIR, lambda _: f'{user.email}_{file.filename}')
+        file_path = save_file(file, settings.DATA_INSIGHTS_DIR, lambda _: get_password_hash(user.email + user.team_name) + "." + file.filename.split('.')[-1])
         user.data_insights_file = settings.ROOT_URL + file_path
 
     if link != None:

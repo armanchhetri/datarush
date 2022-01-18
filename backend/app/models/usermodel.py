@@ -30,6 +30,7 @@ class Submission(BaseModel):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="submissions")
     score = Column(Float, index=True)
+    file = Column(String, nullable=True)
     
 class LeaderBoard(BaseModel):
     __tablename__ = "leaderboard"
@@ -38,7 +39,7 @@ class LeaderBoard(BaseModel):
     public = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="leaderboard")
-    team_name = Column(String, default="superusers")
+    team_name = Column(String, default="organizers")
     highest_score = Column(Float, index=True)
     entries = Column(Integer)
     last = Column(DateTime)

@@ -21,12 +21,12 @@ from .crud import usercrud
 from .models import usermodel
 from .schemas import userschema
 from app.core.config import settings
-from .crud.usercrud import get_current_user, is_superuser, save_data_insights, submit_solution
+from .crud.usercrud import get_current_user, get_leaderboard, is_superuser, save_data_insights, submit_solution
 from .database import SessionLocal, engine, get_db, Base
 
 from .dbinit import init_db, seed_db
 
-
+# Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 
@@ -86,8 +86,8 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-# @app.get("/users/", response_model=List[userschema.User], dependencies=[Depends(get_current_user)])
-@app.get("/users/", response_model=List[userschema.User], dependencies=[Depends(is_superuser)])
+
+@app.get("/users/", response_model=List[userschema.UserAdmin], dependencies=[Depends(is_superuser)])
 def read_users(users: userschema.User = Depends(usercrud.get_users)):
     return users
 
@@ -117,6 +117,11 @@ def read_user(db_user: userschema.User = Depends(usercrud.get_user)):
 @app.post("/submit")
 def submit_sol(file: UploadFile = File(...), user: usermodel.User = Depends(usercrud.get_current_user),
                db: Session = Depends(get_db)):
+
+    #check number of submissions
+    _ , pub_leaderboard = get_leaderboard(db, user.id)
+    if pub_leaderboard and pub_leaderboard.entries >= settings.MAX_SUBMISSIONS:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You have reached the maximum number of submissions")
     score = submit_solution(db, user, file)
     return {"score": score}
 
