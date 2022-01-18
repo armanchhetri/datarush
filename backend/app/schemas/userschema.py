@@ -34,6 +34,24 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+class SubmissionAdmin(BaseModel):
+    id: int
+    score: float
+    timestamp: datetime
+    file: str
+    class Config:
+        orm_mode = True
+
+class UserAdmin(UserBase):
+    id: int
+    submissions: List[SubmissionAdmin]
+    data_insights_link: Optional[str] = None
+    data_insights_file: Optional[str] = None
+   
+    class Config:
+        orm_mode = True
+
+
 class LeaderBoard(BaseModel):
     id: int
     team_name: str 

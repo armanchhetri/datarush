@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     SOLUTION_PATH:str 
     SUBMISSION_DIR: str 
     DATA_INSIGHTS_DIR: str
-
+    MAX_SUBMISSIONS: int
     ROOT_URL :str
     ROOT_PATH: str
     DATABASE_USERNAME :str = "postgres"
