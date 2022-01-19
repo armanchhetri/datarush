@@ -19,7 +19,7 @@ class Submission(BaseModel):
 
 class UserBase(BaseModel):
     email: EmailStr
-    team_name: str = "superusers"
+    team_name: str = "organizers"
 
 class UserCreate(UserBase):
     password: str

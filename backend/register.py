@@ -13,7 +13,7 @@ from app.core.config import settings
 db = SessionLocal()
 
 def get_users(path):
-    updated_users = []
+    updated_users = ["username,team_name,password"]
     users_df = pd.read_csv(path)
     for index, row in users_df.iterrows():
         password = str(index) + row["email"] + row["team_name"] + settings.SECRET_KEY

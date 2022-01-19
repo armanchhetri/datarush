@@ -11,8 +11,7 @@ from app.core.config import settings
 def init_db(db):
     user_in = userschema.UserCreate(
             email=settings.FIRST_SUPERUSER,
-            password=settings.FIRST_SUPERUSER_PASSWORD,
-            is_admin = True
+            password=settings.FIRST_SUPERUSER_PASSWORD
         )
     try:
         print("creating superuser")

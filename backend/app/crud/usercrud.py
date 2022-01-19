@@ -121,12 +121,11 @@ def get_submissions(db: Session, user_id: int):
     return db.query(usermodel.Submission).filter(usermodel.Submission.user_id == user_id).order_by(usermodel.Submission.id.desc()).all()
 
 def get_leaderboard(db: Session, user_id: int):
-    lb_pri = db.query(usermodel.LeaderBoard).filter(usermodel.LeaderBoard.user_id == user_id and
-                                                usermodel.LeaderBoard.public == False).first()
-
-    lb_pub = db.query(usermodel.LeaderBoard).filter(usermodel.LeaderBoard.user_id == user_id and
-                                                usermodel.LeaderBoard.public == True).first()
-
+    lb_pri = db.query(usermodel.LeaderBoard).filter_by(user_id=user_id, public=False).first()
+    lb_pub = db.query(usermodel.LeaderBoard).filter_by(user_id=user_id, public=True).first()
+    if lb_pri is not None:
+        assert lb_pri.public == False
+        assert lb_pub.public == True
     return lb_pri, lb_pub
 
 
@@ -148,31 +147,41 @@ def submit_solution(db: Session, user: userschema.User, csv_file: UploadFile):
     submission = save_db(db, submission)
 
     pri_leaderboard, pub_leaderboard = get_leaderboard(db, user.id)
+    
 
     if pub_leaderboard is None:
-        leaderboard = usermodel.LeaderBoard(team_name = user.team_name,
+        pub_leaderboard = usermodel.LeaderBoard(team_name = user.team_name,
             user_id=user.id, highest_score=pub_score, entries=1, last=submission.timestamp, public=True)
-        leaderboard = save_db(db, leaderboard)
+        pub_leaderboard = save_db(db, pub_leaderboard)
+        # print(pub_leaderboard.entries)
 
     else:
+        # print(pri_leaderboard.public, pub_leaderboard.public)
         if pub_leaderboard.highest_score <  pub_score:
             pub_leaderboard.highest_score = pub_score
             pub_leaderboard.last = submission.timestamp
 
-        pub_leaderboard.entries = pub_leaderboard.entries + 1
-        leaderboard = save_db(db, pub_leaderboard)
+        
+        entries = pub_leaderboard.entries
+        # print("entries", entries)
+        pub_leaderboard.entries = entries + 1
+
+        pub_leaderboard = save_db(db, pub_leaderboard)
+
 
     if pri_leaderboard is None:
-        leaderboard = usermodel.LeaderBoard(team_name = user.team_name,
+        # print("first time private leaderboard creating")
+        pri_leaderboard = usermodel.LeaderBoard(team_name = user.team_name,
             user_id=user.id, highest_score=pri_score, entries=1, last=submission.timestamp, public=False)
-        leaderboard = save_db(db, leaderboard)
+        pri_leaderboard = save_db(db, pri_leaderboard)
 
     else:
         if pri_leaderboard.highest_score <  pri_score:
             pri_leaderboard.highest_score = pri_score
             pri_leaderboard.last = submission.timestamp
-        pri_leaderboard.entries = pri_leaderboard.entries + 1
-        leaderboard = save_db(db, pri_leaderboard)
+        entries = pri_leaderboard.entries
+        pri_leaderboard.entries = entries + 1
+        pri_leaderboard = save_db(db, pri_leaderboard)    
 
     return pub_score
 

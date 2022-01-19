@@ -26,7 +26,7 @@ from .database import SessionLocal, engine, get_db, Base
 
 from .dbinit import init_db, seed_db
 
-# Base.metadata.drop_all(bind=engine)
+Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 
