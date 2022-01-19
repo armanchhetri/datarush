@@ -30,6 +30,8 @@ def validate_dataset(df_sol, df_sub):
 @cached(cache)
 def calculate_score(file_path: str) -> Tuple[float, float]:
     df_sub = pd.read_csv(file_path)
+    if "id" not in df_sub.columns:
+        raise HTTPException(status_code=400, detail="Submission file does not contain id column")
     df_sub = df_sub.sort_values(by=["id"])
 
     df_sol = pd.read_csv(settings.SOLUTION_PATH)
