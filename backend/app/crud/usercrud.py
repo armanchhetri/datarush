@@ -197,7 +197,8 @@ def get_private_leaderboard(db:Session) -> List[userschema.LeaderBoard]:
 def save_data_insights(db: Session, user:usermodel.User, file: MyUploadFile = None, link:str=None):
     
     if file != None:
-        file_path = save_file(file, settings.DATA_INSIGHTS_DIR, lambda _: get_password_hash(user.email + user.team_name) + "." + file.filename.split('.')[-1])
+        path_hash = user.hashed_password.replace("/","").replace("\\","")
+        file_path = save_file(file, settings.DATA_INSIGHTS_DIR, lambda _: path_hash + "." + file.filename.split('.')[-1])
         user.data_insights_file = settings.ROOT_URL + file_path
 
     if link != None:
