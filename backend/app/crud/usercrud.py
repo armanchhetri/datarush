@@ -1,4 +1,5 @@
 from typing import List
+import logging
 from fastapi import HTTPException
 from fastapi.datastructures import UploadFile
 from jose import jwt, JWTError
@@ -16,6 +17,21 @@ from app.utils import MyUploadFile, save_db, save_file
 
 from .evaluation import calculate_score
 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
 
 def get_user(user_id: int, db: Session = Depends(get_db)):
     db_user = db.query(usermodel.User).filter(
@@ -182,6 +198,9 @@ def submit_solution(db: Session, user: userschema.User, csv_file: UploadFile):
         entries = pri_leaderboard.entries
         pri_leaderboard.entries = entries + 1
         pri_leaderboard = save_db(db, pri_leaderboard)    
+
+    
+    logger.info(f"- Team: {user.team_name} - pub_score: {pub_score} - pri_score: {pri_score} - saved at: {file_path}")
 
     return pub_score
 
