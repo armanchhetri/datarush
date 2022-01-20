@@ -117,52 +117,46 @@ const Timeline = () => {
     <div>
       <h3 className="text-xl font-bold">Timeline</h3>
 
-      <p className="pt-4 font-bold">Jan 18</p>
+      <p className="pt-4 font-bold">Jan 21</p>
       <ul className="list-disc pl-6">
         <li>
-          The problem statement and dataset are made available to participants.
+        The participants have to attend the orientation of the online meeting on the Zoom platform at 10:00 AM.
         </li>
         <li>
-          A representative of the team will sign a document with entry fees
-          amounting to Rs. 500.
+        The problem statement and dataset are made available to participants.
         </li>
         <li>
-          A mentor is assigned to several teams and will guide them throughout
-          the competition.
+        General mentorship will be provided to the participants present at the online meeting.
+
         </li>
         <li>
-          The mentors will inform the teams about the use of AI/Data Science in
-          global and Nepali industries, and the organizing team will walk them
-          through the submission process.
+        The mentors in that program will inform the teams about the use of AI and Data Science in global and Nepali industries, and the organizing team will walk them through the submission process.
         </li>
+        <li>The login credentials will be shared with you via email on the very same day which is compulsorily needed to submit solutions.</li>
       </ul>
 
-      <p className="pt-4 font-bold">Jan 18 - Jan 25</p>
+      <p className="pt-4 font-bold">Jan 21 - Jan 27</p>
 
       <ul className="list-disc pl-6">
-        <li>The submission portal will be available for one week only.</li>
+        <li>The submission portal will be available for one week only which can be used for submission using the login credentials.</li>
         <li>
-          There is no limit to the number of submissions for any team, and only
-          the most recent submission is considered for an individual team's
-          leaderboard.
+        There is a limit in the number of submissions (30) for any team, and only the best score submission is considered for an individual team's leaderboard.
         </li>
         <li>The leaderboard is updated in real-time.</li>
         <li>
-          To win in the data insights category, the team must submit a data
-          analysis report to the platform.
+          In the data insights category, the team must submit a data analysis report to the same portal and the judges will score the report to determine a winner team of the category.
         </li>
-        <li>The submission portal will be closed by 11:59 PM on Jan 25.</li>
+        <li>The submission portal will be closed by 11:59 PM on Jan 27.</li>
       </ul>
 
-      <p className="pt-4 font-bold">Jan 26</p>
+      <p className="pt-4 font-bold">Jan 28</p>
       <ul className="list-disc pl-6">
         <li>
-          The competitors must provide the organizing team with their
-          well-documented source code and model.
+        The competitors must provide the organizing team with their well-documented source code and model.
         </li>
       </ul>
 
-      <p className="pt-4 font-bold">Jan 27 - Jan 28</p>
+      <p className="pt-4 font-bold">Jan 29 - Jan 30</p>
       <ul className="list-disc pl-6">
         <li>
           The organizing team will double-check the solution as well as the
@@ -174,7 +168,7 @@ const Timeline = () => {
         </li>
       </ul>
 
-      <p className="pt-4 font-bold">Jan 29</p>
+      <p className="pt-4 font-bold">Jan 31</p>
       <ul className="list-disc pl-6">
         <li>
           The winner will be announced via suitable online platforms like the
