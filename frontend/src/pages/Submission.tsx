@@ -1,7 +1,7 @@
 import { Pagination } from "@mui/material";
 import { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
@@ -146,29 +146,35 @@ const PreviousSubmissions = () => {
     enqueueSnackbar(error.message, { variant: "error" });
   }, [error]);
 
-  useEffect(() => {
-    if (isFetching) displayLoader();
-    else hideLoader();
-  }, [isFetching, displayLoader, hideLoader]);
+  let submissions = [];
+  if (data?.submissions) submissions = data.submissions;
 
   return (
     <div className="">
       <div>
         <h3 className="font-bold text-lg">AI Competition Submission History</h3>
+        <div className="text-sm text-right">
+          <span className="bg-sky-600 text-white text-sm font-bold rounded px-2">
+            {30 - submissions.length} submissions left
+          </span>
+        </div>
         <div className="py-2">
           {paginatedData.length === 0 ? (
-            <div className="border p-4 bg-slate-50 text-center">No entries</div>
+            <div className="border rounded-md p-4 bg-slate-50 text-center">
+              No entries
+            </div>
           ) : (
             paginatedData.map((submission, i) => (
               <div
-                key={i + submission.id}
-                className={`border p-4 ${i % 2 === 0 ? "" : "bg-slate-50"}`}
+                key={`${i}${submission.id}`}
+                className={`border rounded-md p-4 my-2 ${
+                  i % 2 === 0 ? "" : "bg-slate-50"
+                }`}
               >
-                <p className="">{new Date(submission.timestamp).toString()}</p>
-                <p className="text-sm font-bold">
-                  Submission id: {submission.id}
+                <p className="font-bold text-sm">
+                  {new Date(submission.timestamp).toString()}
                 </p>
-                <p className="text-sm font-bold py-2">
+                <p className="text-sm font-bold">
                   Score:{" "}
                   <span className="bg-green-700 text-white text-sm font-bold rounded px-2">
                     {submission.score}
@@ -233,17 +239,20 @@ const PreviousSubmissions = () => {
 };
 
 const ModelForm = () => {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone();
+  const [file, setFile] = useState<File | null>(null);
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFile(acceptedFiles[0]);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   const modelSubmissionForm = useRef<HTMLFormElement>(null);
 
-  const modelFile = modelSubmissionForm?.current?.["file"].value;
-
   const queryClient = useQueryClient();
-  const mutation = useMutation<any, AxiosError, HTMLFormElement>(
+  const mutation = useMutation<any, AxiosError, FormData>(
     ["submission"],
     submitModelFile,
     {
@@ -287,7 +296,9 @@ const ModelForm = () => {
           autoComplete="off"
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            const form = e.currentTarget;
+            const form = new FormData();
+            if (file) form.append("file", file);
+            else form.append("file", "");
             mutation.mutate(form);
           }}
           ref={modelSubmissionForm}
@@ -334,7 +345,7 @@ const ModelForm = () => {
                   </div>
                 </div>
                 <p className="font-bold text-sm text-center">
-                  {modelFile ? "Current file: " + modelFile : "No file choosen"}
+                  {file ? "Current file: " + file.name : "No file choosen"}
                 </p>
               </div>
             </div>
@@ -355,16 +366,20 @@ const ModelForm = () => {
 };
 
 const DataInsightsForm = () => {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone();
+  const [file, setFile] = useState<File>();
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFile(acceptedFiles[0]);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   const dataInsightsForm = useRef<HTMLFormElement>(null);
 
-  const dataInsightsFile = dataInsightsForm?.current?.["file"].value;
-
-  const mutation = useMutation<any, AxiosError, HTMLFormElement>(
+  const mutation = useMutation<any, AxiosError, FormData>(
     ["submission"],
     submitDataInsightsForm,
     {
@@ -404,7 +419,10 @@ const DataInsightsForm = () => {
           autoComplete="off"
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            const form = e.currentTarget;
+            const form = new FormData();
+            if (file) form.append("file", file);
+            else form.append("file", "");
+            form.append("link", e.currentTarget["link"].value);
             mutation.mutate(form);
           }}
           ref={dataInsightsForm}
@@ -453,9 +471,7 @@ const DataInsightsForm = () => {
                   </div>
                 </div>
                 <p className="font-bold text-sm text-center">
-                  {dataInsightsFile
-                    ? "Current file: " + dataInsightsFile
-                    : "No file choosen"}
+                  {file ? "Current file: " + file.name : "No file choosen"}
                 </p>
               </div>
               <div className="grid grid-cols-6 gap-6">
