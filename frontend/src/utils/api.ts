@@ -58,11 +58,11 @@ export const signOut = async () => {
   removeTokenType();
 };
 
-export async function submitModelFile(form: HTMLFormElement) {
+export async function submitModelFile(form: FormData) {
   const response = await axios({
     url: "/submit",
     method: "post",
-    data: new FormData(form),
+    data: form,
     headers: {
       Authorization: getTokenType() + " " + getCurrentAuthToken(),
     },
@@ -71,11 +71,11 @@ export async function submitModelFile(form: HTMLFormElement) {
   return response;
 }
 
-export async function submitDataInsightsForm(form: HTMLFormElement) {
+export async function submitDataInsightsForm(form: FormData) {
   const response = await axios({
     url: "/submit-insights",
     method: "post",
-    data: new FormData(form),
+    data: form,
     headers: {
       Authorization: getTokenType() + " " + getCurrentAuthToken(),
     },
