@@ -86,18 +86,11 @@ const Description = () => {
 
       <h3 className="text-xl font-bold pt-4">Competition Format</h3>
       <p className="py-2">
-        Participants will be working to solve a real-world challenge. The
-        challenge is to produce an optimal machine learning model for the
-        provided dataset and stated problem. The dataset is partitioned into
-        train and test datasets. Competition scoring and ranking are based on
-        two leaderboards: public and private. These two leaderboards are created
-        by randomly splitting the test dataset. The public leaderboard is based
-        on a subset of X% of observations in the test dataset you are submitting
-        while the private leaderboard is based on the remaining Y% of data which
-        is hidden from participants. The private leaderboard is only calculated
-        by the organizing team after the submission of the source code and
-        model. The weighted average is used to determine the final competition
-        ranking which is released on the final day.
+      Participants will be working to solve a real-world challenge. 
+      The challenge is to produce an optimal machine learning model for the provided dataset and stated problem. The dataset is partitioned into train and test datasets. 
+      Competition scoring and ranking are based on two leaderboards: public and private. These two leaderboards are created by randomly splitting the test dataset. 
+      The public leaderboard is based on a subset of X% of observations in the test dataset you are submitting while the private leaderboard is based on 100% of the test dataset.
+      The private leaderboard is only displayed after the competition ends. The winner is the team that performs the best on the private leaderboard.
       </p>
     </div>
   );
@@ -111,9 +104,9 @@ const Evaluation = () => {
       <ul className="list-disc pl-6 py-4">
         <li>The evaluation is done by the organizing team</li>
         <li>
-          It is based on the model evaluation metrics (Accuracy, F1- Score,
-          etc.)
+          It is based on the model evaluation metrics <a className="text-l font-bold" href="https://towardsdatascience.com/micro-macro-weighted-averages-of-f1-score-clearly-explained-b603420b292f"> F1- Score </a>with macro averaging.
         </li>
+        <li>Organizers and sponsors are the Judge for data-insights category</li>
       </ul>
     </div>
   );
