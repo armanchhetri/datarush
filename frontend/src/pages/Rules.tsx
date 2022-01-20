@@ -21,6 +21,7 @@ const Rules = () => {
           </li>
           <li>The submission after the deadline will be discarded.</li>
           <li>Winners should submit the model at the end, so they will be responsible for storing the model with the best performance.</li>
+          <li>Total submission Quota is 30</li>
         </ul>
         <h3 className="text-xl font-bold pt-4">Terms and Conditions</h3>
         <ul className="list-disc pl-6">
@@ -29,7 +30,7 @@ const Rules = () => {
             competition.
           </li>
           <li>The team members will be responsible  if they share their private credentials outside of the team or there are unnecessary activities from that team account.</li>
-          <li>All taxes imposed on prizes are the winner's sole responsibility. Payments to prospective winners are contingent on submitting all documents needed by the Locus in order to comply with applicable state, federal, municipal, and foreign (including provincial) tax reporting and withholding laws. Prizes will be awarded net of any taxes required by law to be withheld by the Competition Sponsor.</li>
+          <li>All taxes imposed on prizes are the winner's sole responsibility. Payments to prospective winners are contingent on submitting all documents needed by the LOCUS in order to comply with applicable state, federal, municipal, and foreign (including provincial) tax reporting and withholding laws. Prizes will be awarded net of any taxes required by law to be withheld by the Competition Sponsor.</li>
           <li>You agree that, unless prohibited by law, the Competition Sponsor, LOCUS, and its affiliates may use your name and likeness for advertising and promotional purposes without extra compensation</li>
           <li>If the Competition is unable to run as planned due to any reason, including infection by computer virus, bugs, tampering, unauthorized intervention, fraud, technical failures, or any other cause that corrupts or affects the administration, 
             security, fairness, integrity, or proper conduct of the Competition, the LOCUS reserves the right to cancel, terminate, modify, or suspend the Competition.</li>
