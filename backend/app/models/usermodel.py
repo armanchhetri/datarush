@@ -15,7 +15,7 @@ class User(BaseModel):
     is_superuser = Column(Boolean, default=False)
     data_insights_file = Column(String, nullable=True)
     data_insights_link = Column(String, nullable=True)
-    submissions = relationship("Submission", back_populates="user")
+    submissions = relationship("Submission", back_populates="user", order_by="Submission.timestamp.desc()")
     leaderboard = relationship("LeaderBoard", back_populates="user", uselist=False)
 
     # roles = relationship("Role", secondary=UserRole, backref="User")
