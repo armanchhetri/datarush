@@ -148,7 +148,7 @@ def public_leaderboard(db: Session = Depends(get_db)):
     leaderboard = usercrud.get_public_leaderboard(db)
     return leaderboard
 
-@app.get("/private-leaderboard", response_model = List[userschema.LeaderBoard])
+@app.get("/private-leaderboard", response_model = List[userschema.LeaderBoardPrivate])
 def private_leaderboard(db: Session = Depends(get_db)):
     announced = db.query(usermodel.Announcement).first()
     if announced is None:
