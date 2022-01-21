@@ -63,13 +63,13 @@ const Description = () => {
       <EventDescription />
       <h3 className="text-xl font-bold">Description</h3>
       <p className="py-2">
-        DataRush is one of the major competitive pre-events organized by LOCUS
-        to grow Nepal's AI/Data Science community. This document outlines the
-        requirements for any team wishing to expand its network and compete in
-        the LOCUS 2021 DataRush Competition. The following rules have been
-        written to be as unrestrictive to the design process as possible, while
-        also balancing fairness to other competitors, platform usage, and event
-        scheduling issues.
+        <b>Docsumo DataRush</b> is one of the major competitive pre-events
+        organized by LOCUS to grow Nepal's AI/Data Science community. This
+        document outlines the requirements for any team wishing to expand its
+        network and compete in the LOCUS 2021 DataRush Competition. The
+        following rules have been written to be as unrestrictive to the design
+        process as possible, while also balancing fairness to other competitors,
+        platform usage, and event scheduling issues.
       </p>
       <p className="py-2">
         In this event, competitors must attend the orientation session on
@@ -86,11 +86,16 @@ const Description = () => {
 
       <h3 className="text-xl font-bold pt-4">Competition Format</h3>
       <p className="py-2">
-      Participants will be working to solve a real-world challenge. 
-      The challenge is to produce an optimal machine learning model for the provided dataset and stated problem. The dataset is partitioned into train and test datasets. 
-      Competition scoring and ranking are based on two leaderboards: public and private. These two leaderboards are created by randomly splitting the test dataset. 
-      The public leaderboard is based on a subset of X% of observations in the test dataset you are submitting while the private leaderboard is based on 100% of the test dataset.
-      The private leaderboard is only displayed after the competition ends. The winner is the team that performs the best on the private leaderboard.
+        Participants will be working to solve a real-world challenge. The
+        challenge is to produce an optimal machine learning model for the
+        provided dataset and stated problem. The dataset is partitioned into
+        train and test datasets. Competition scoring and ranking are based on
+        two leaderboards: public and private. These two leaderboards are created
+        by randomly splitting the test dataset. The public leaderboard is based
+        on a subset of X% of observations in the test dataset you are submitting
+        while the private leaderboard is based on 100% of the test dataset. The
+        private leaderboard is only displayed after the competition ends. The
+        winner is the team that performs the best on the private leaderboard.
       </p>
     </div>
   );
@@ -102,11 +107,30 @@ const Evaluation = () => {
       <h3 className="text-xl font-bold">Evaluation</h3>
 
       <ul className="list-disc pl-6 py-4">
-        <li>The evaluation is done by the organizing team</li>
         <li>
-          It is based on the model evaluation metrics <a className="text-l font-bold" href="https://towardsdatascience.com/micro-macro-weighted-averages-of-f1-score-clearly-explained-b603420b292f"> F1- Score </a>with macro averaging.
+          The model appraisal is based on the evaluation metric{" "}
+          <a
+            href="https://towardsdatascience.com/micro-macro-weighted-averages-of-f1-score-clearly-explained-b603420b292f"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700"
+          >
+            F1- Score
+          </a>{" "}
+          with macro averaging.
         </li>
-        <li>Organizers and sponsors are the Judge for data-insights category</li>
+        <li>
+          For data insights, the evaluation of multiple models and their
+          reasonings are highly appreciated.
+        </li>
+        <li>
+          The data insight report needs to be consistent and in understandable
+          language.
+        </li>
+        <li>
+          A number of charts and other graphical representations are preferable
+          in data insights.
+        </li>
       </ul>
     </div>
   );

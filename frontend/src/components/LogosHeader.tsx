@@ -14,16 +14,18 @@ const LogosHeader = () => {
                 <hr />
                 </div> */}
 
-      <img
-        src="/images/pc_logo.svg"
-        alt="programmiz logo"
-        className="mx-auto w-40 py-2"
-      />
-      <img
-        src="/images/locus-logo.png"
-        alt="locus logo"
-        className="mx-auto w-80 py-2"
-      />
+      <div className="mx-auto">
+        <img
+          src="/images/pc_logo.svg"
+          alt="programmiz logo"
+          className="w-40 py-2 inline-block"
+        />
+        <img
+          src="/images/locus-logo.png"
+          alt="locus logo"
+          className="w-80 py-2 inline-block"
+        />
+      </div>
       <hr />
       <div className="px-4 py-4">
         <img
