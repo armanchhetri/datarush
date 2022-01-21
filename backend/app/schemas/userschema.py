@@ -34,11 +34,29 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+
+class LeaderBoard(BaseModel):
+    id: int
+    team_name: str 
+    highest_score: float
+    public:bool
+    entries: int
+    last: datetime
+    class Config:
+        orm_mode = True
+
+
+class LeaderBoardPrivate(LeaderBoard):
+    best_sub: Submission
+
+
+
 class SubmissionAdmin(BaseModel):
     id: int
     score: float
     timestamp: datetime
     file: str
+    leaderboard: List[LeaderBoard]
     class Config:
         orm_mode = True
 
@@ -51,15 +69,6 @@ class UserAdmin(UserBase):
     class Config:
         orm_mode = True
 
-
-class LeaderBoard(BaseModel):
-    id: int
-    team_name: str 
-    highest_score: float
-    entries: int
-    last: datetime
-    class Config:
-        orm_mode = True
 
 
 class UserUpdate(UserBase):

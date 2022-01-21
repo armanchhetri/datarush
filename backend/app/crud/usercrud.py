@@ -167,7 +167,7 @@ def submit_solution(db: Session, user: userschema.User, csv_file: UploadFile):
 
     if pub_leaderboard is None:
         pub_leaderboard = usermodel.LeaderBoard(team_name = user.team_name,
-            user_id=user.id, highest_score=pub_score, entries=1, last=submission.timestamp, public=True)
+            user_id=user.id, highest_score=pub_score, entries=1, last=submission.timestamp, public=True, best_sub_id=submission.id)
         pub_leaderboard = save_db(db, pub_leaderboard)
         # print(pub_leaderboard.entries)
 
@@ -176,6 +176,7 @@ def submit_solution(db: Session, user: userschema.User, csv_file: UploadFile):
         if pub_leaderboard.highest_score <  pub_score:
             pub_leaderboard.highest_score = pub_score
             pub_leaderboard.last = submission.timestamp
+            pub_leaderboard.best_sub_id=submission.id
 
         
         entries = pub_leaderboard.entries
@@ -188,13 +189,15 @@ def submit_solution(db: Session, user: userschema.User, csv_file: UploadFile):
     if pri_leaderboard is None:
         # print("first time private leaderboard creating")
         pri_leaderboard = usermodel.LeaderBoard(team_name = user.team_name,
-            user_id=user.id, highest_score=pri_score, entries=1, last=submission.timestamp, public=False)
+            user_id=user.id, highest_score=pri_score, entries=1, last=submission.timestamp, public=False, best_sub_id=submission.id)
         pri_leaderboard = save_db(db, pri_leaderboard)
 
     else:
         if pri_leaderboard.highest_score <  pri_score:
             pri_leaderboard.highest_score = pri_score
             pri_leaderboard.last = submission.timestamp
+            pri_leaderboard.best_sub_id=submission.id
+
         entries = pri_leaderboard.entries
         pri_leaderboard.entries = entries + 1
         pri_leaderboard = save_db(db, pri_leaderboard)    
