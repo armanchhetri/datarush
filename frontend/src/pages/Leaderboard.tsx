@@ -334,7 +334,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
 };
 
 const PrivateLeaderboardTable: React.FC<LeaderboardTableProps> = ({
-  route = "public",
+  route = "private",
 }) => {
   const { data, error, isFetching, isError } = useQuery<
     LeaderboardEntry[],
