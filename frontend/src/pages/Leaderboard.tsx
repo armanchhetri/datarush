@@ -149,7 +149,9 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   const { data, error, isFetching, isError } = useQuery<
     LeaderboardEntry[],
     AxiosError
-  >(["public-leaderboard"], getPublicLeaderboard);
+  >(["public-leaderboard"], getPublicLeaderboard, {
+    refetchOnWindowFocus: false,
+  });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -170,9 +172,11 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
             status={"Updating"}
           />
         ) : (
-          <div className="bg-red-600 text-white text-sm font-bold rounded px-2">
-            {isError ? "Error" : "Live"}
-          </div>
+          isError && (
+            <div className="bg-red-600 text-white text-sm font-bold rounded px-2">
+              Error
+            </div>
+          )
         )}
       </div>
 
@@ -339,7 +343,9 @@ const PrivateLeaderboardTable: React.FC<LeaderboardTableProps> = ({
   const { data, error, isFetching, isError } = useQuery<
     LeaderboardEntry[],
     AxiosError
-  >(["private-leaderboard"], getPrivateLeaderboard);
+  >(["private-leaderboard"], getPrivateLeaderboard, {
+    refetchOnWindowFocus: false,
+  });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -360,9 +366,11 @@ const PrivateLeaderboardTable: React.FC<LeaderboardTableProps> = ({
             status={"Updating"}
           />
         ) : (
-          <div className="bg-red-600 text-white text-sm font-bold rounded px-2">
-            {isError ? "Error" : "Live"}
-          </div>
+          isError && (
+            <div className="bg-red-600 text-white text-sm font-bold rounded px-2">
+              Error
+            </div>
+          )
         )}
       </div>
 
