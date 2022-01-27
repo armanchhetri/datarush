@@ -118,6 +118,8 @@ def read_user(db_user: userschema.User = Depends(usercrud.get_user)):
 def submit_sol(file: UploadFile = File(...), user: usermodel.User = Depends(usercrud.get_current_user),
                db: Session = Depends(get_db)):
 
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Dealine has passed")
+
     #check number of submissions
     _ , pub_leaderboard = get_leaderboard(db, user.id)
     if pub_leaderboard and pub_leaderboard.entries >= settings.MAX_SUBMISSIONS:
@@ -129,6 +131,7 @@ def submit_sol(file: UploadFile = File(...), user: usermodel.User = Depends(user
 @app.post("/submit-insights")
 def submit_data_insights(file: MyUploadFile = File(None), link:str = Form(None), user: usermodel.User = Depends(usercrud.get_current_user),
                db: Session = Depends(get_db)):
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Dealine has passed")
 
     if file is None and link is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please provide either a file or a link")
