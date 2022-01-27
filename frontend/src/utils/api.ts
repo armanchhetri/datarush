@@ -103,3 +103,11 @@ export async function getPublicLeaderboard() {
 
   return response.data;
 }
+
+export async function getPrivateLeaderboard() {
+  const response = await axios({
+    url: "/private-leaderboard",
+  });
+
+  return response.data;
+}

@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function useLeaderboardWebSocket() {
+  const [leaderboardEntries, setLeaderboardEntries] =
+    useState<LeaderboardEntry[]>();
+
   useEffect(() => {
     const leaderboardWebSocket = new WebSocket(
       `${process.env.REACT_APP_BASE_URL_WS}/leaderboard`

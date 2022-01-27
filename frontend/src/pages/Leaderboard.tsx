@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { Navigate, NavLink, Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
-import { getPublicLeaderboard } from "../utils/api";
+import { getPrivateLeaderboard, getPublicLeaderboard } from "../utils/api";
 
 // const leaderboardEntries = [
 //   {
@@ -131,7 +131,7 @@ const Leaderboard = () => {
           <Routes>
             <Route path="" element={<Navigate to="public" replace={true} />} />
             <Route path="public" element={<LeaderboardTable />} />
-            <Route path="private" element={<PrivateLeaderboard />} />
+            <Route path="private" element={<PrivateLeaderboardTable />} />
           </Routes>
         </section>
       </div>
@@ -149,7 +149,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   const { data, error, isFetching, isError } = useQuery<
     LeaderboardEntry[],
     AxiosError
-  >(["public-leaderboard"], getPublicLeaderboard, { refetchInterval: 5000 });
+  >(["public-leaderboard"], getPublicLeaderboard);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -333,14 +333,192 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   );
 };
 
-const PrivateLeaderboard = () => {
+const PrivateLeaderboardTable: React.FC<LeaderboardTableProps> = ({
+  route = "public",
+}) => {
+  const { data, error, isFetching, isError } = useQuery<
+    LeaderboardEntry[],
+    AxiosError
+  >(["private-leaderboard"], getPrivateLeaderboard);
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (!error) return;
+    enqueueSnackbar(error.message, { variant: "error" });
+  }, [error]);
+
   return (
     <div className="min-h-[16rem]">
-      <h3 className="text-xl font-bold">Private Leaderboard</h3>
-
-      <div className="text-center text-lg py-8 underline">
-        The private leaderboard will be available after the competition ends.
+      <div className="flex flex-wrap justify-start items-center gap-4">
+        <h3 className="text-xl font-bold">
+          {route === "public" ? "Public Leaderboard" : "Private Leaderboard"}
+        </h3>
+        {isFetching ? (
+          <Loading
+            className="bg-gray-100 px-2 rounded text-sm"
+            status={"Updating"}
+          />
+        ) : (
+          <div className="bg-red-600 text-white text-sm font-bold rounded px-2">
+            {isError ? "Error" : "Live"}
+          </div>
+        )}
       </div>
+
+      <div className="py-4">
+        <table className="min-w-full divide-y divide-gray-200 border hidden md:table">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider "
+              >
+                #
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+              >
+                Team Name
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+              >
+                Highest Score
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+              >
+                Entries
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+              >
+                Last Entry
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {data?.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center py-8 text-sm">
+                  {" "}
+                  No Rows{" "}
+                </td>
+              </tr>
+            ) : (
+              data?.map((leaderboardEntry, i) => (
+                <tr
+                  key={leaderboardEntry.id}
+                  className={rankWiseBackgroundColorClassName(i + 1)}
+                >
+                  <td
+                    className={
+                      "px-4 py-4 whitespace-nowrap " +
+                      rankWiseBorderColorClassName(i + 1)
+                    }
+                  >
+                    <div className="flex items-center">
+                      <div className="">{i + 1}</div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <div className="text-sm font-bold">
+                      {leaderboardEntry.team_name}
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <span>{leaderboardEntry.highest_score}</span>
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap">
+                    <span>{leaderboardEntry.entries}</span>
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                    <span>
+                      {new Date(leaderboardEntry.last).toLocaleString()}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+      <table className="min-w-full divide-y divide-gray-200 border md:hidden">
+        <thead className="bg-gray-50">
+          <tr>
+            <th
+              scope="col"
+              className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+            >
+              #
+            </th>
+            <th
+              scope="col"
+              className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+            >
+              Team Details
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {data?.length === 0 ? (
+            <tr>
+              <td colSpan={2} className="text-center py-8 text-sm">
+                {" "}
+                No Rows{" "}
+              </td>
+            </tr>
+          ) : (
+            data?.map((leaderboardEntry, i) => (
+              <tr
+                key={leaderboardEntry.id}
+                className={rankWiseBackgroundColorClassName(i + 1)}
+              >
+                <td
+                  className={
+                    "px-4 py-4 whitespace-nowrap " +
+                    rankWiseBorderColorClassName(i + 1)
+                  }
+                >
+                  <div className="flex items-center">
+                    <div className="">{i + 1}</div>
+                  </div>
+                </td>
+                <td className="px-4 py-4 whitespace-nowrap">
+                  <div className="font-bold text-gray-900">
+                    {leaderboardEntry.team_name}
+                  </div>
+                  <div className="text-xs">
+                    <span className="pr-1 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                      Highest Score:
+                    </span>
+                    <span>{leaderboardEntry.highest_score}</span>
+                  </div>
+                  <div className="text-xs">
+                    <span className="pr-1 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                      Entries:
+                    </span>
+                    <span>{leaderboardEntry.entries}</span>
+                  </div>
+                  <div className="text-xs">
+                    <span className="pr-1 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                      Last Entry:
+                    </span>
+                    <span>
+                      {new Date(leaderboardEntry.last).toLocaleString()}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
