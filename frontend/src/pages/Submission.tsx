@@ -12,6 +12,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import LoginRequired from "../components/LoginRequired";
+import SubmissionClosed from "../components/SubmissionClosed";
 import useTopLoader from "../hooks/useTopLoader";
 import {
   getMyInfo,
@@ -34,13 +35,17 @@ const Submission = () => {
     }
   );
 
+  const submissionClosed = true;
+
   return (
     <div className="rounded-md shadow-sm p-4 my-4 bg-white">
       <div className="py-6">
         <h2 className="text-4xl font-bold text-[#1174af]">Submission</h2>
       </div>
       <hr />
-      {myInfoQuery.error?.response?.status === 401 ? (
+      {submissionClosed ? (
+        <SubmissionClosed />
+      ) : myInfoQuery.error?.response?.status === 401 ? (
         <LoginRequired />
       ) : (
         <div className="py-2 grid grid-cols-12 gap-4 divide-x divide-y">
