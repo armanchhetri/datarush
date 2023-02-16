@@ -11,7 +11,7 @@ greenlet==1.1.2
 gunicorn==20.1.0
 h11==0.12.0
 idna==3.3
-joblib==1.1.0
+joblib==1.1.1
 numpy==1.22.0
 pandas==1.3.5
 passlib==1.7.4
